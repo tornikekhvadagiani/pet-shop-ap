@@ -5,6 +5,7 @@ import { MainWrapper } from "./GlobalStyles";
 import Navbar from "./components/Navbar";
 import Animals from "./pages/Animals/Animals";
 import { ToastContainer } from "react-toastify";
+import Category from "./pages/Category/Category";
 function App() {
   return (
     <>
@@ -13,6 +14,7 @@ function App() {
         <Routes>
           <Route path="/Main" element={<MainPage />} />
           <Route path="/AddAnimals" element={<Animals />} />
+          <Route path="/AddCategory" element={<Category />} />
         </Routes>
         <ToastContainer
           position="bottom-right"

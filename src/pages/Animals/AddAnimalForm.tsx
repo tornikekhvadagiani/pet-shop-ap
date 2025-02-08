@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import {
   CheckboxContainer,
   Input,
@@ -6,10 +6,11 @@ import {
   Form,
   InputFlex,
   FormMain,
-} from "./AnimalStyles";
+} from "../../GlobalStyles";
 import { SubmitButton } from "../../GlobalStyles";
 import { toast } from "react-toastify";
 import usePostRequest from "../../CustomHooks/usePostRequest";
+import { useNavigate } from "react-router-dom";
 
 const AddAnimalForm = () => {
   const nameRef = useRef<HTMLInputElement>(null);
@@ -18,6 +19,7 @@ const AddAnimalForm = () => {
   const stockRef = useRef<HTMLInputElement>(null);
   const isPopularRef = useRef<HTMLInputElement>(null);
   const { VITE_ANIMALS_KEY, VITE_API_URL } = import.meta.env;
+  const navigate = useNavigate();
 
   const addAnimal = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -44,7 +46,7 @@ const AddAnimalForm = () => {
         key: VITE_ANIMALS_KEY,
         endPoint: "animals",
         data: formData,
-        navigate: "/Main",
+        navigate,
       });
     }
   };

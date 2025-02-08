@@ -2,10 +2,10 @@ import { toast } from "react-toastify";
 
 interface IData {
   name: string | null | undefined;
-  priceUSD: string | null | undefined;
+  priceUSD?: string | null | undefined;
   description: string | null | undefined;
-  stock: string | null | undefined;
-  isPopular: boolean;
+  stock?: string | null | undefined;
+  isPopular?: boolean;
 }
 
 interface IPostReq {
@@ -44,8 +44,9 @@ const usePostRequest = async ({
     );
 
     navigate("/");
-  } catch {
-    () => toast.error("Something Went Wrong!");
+  } catch (error) {
+    console.error("POST Request Error:", error);
+    toast.error("Something Went Wrong!");
   }
 };
 
