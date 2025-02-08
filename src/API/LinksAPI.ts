@@ -5,12 +5,13 @@ import main from "../../public/assets/icons/main.png";
 import { ILinks } from "../globalTypes";
 
 export const LinksAPI: ILinks[] = [
-  { title: "Main Page", linkTo: "/Main", icon: main },
-  { title: "Add Pets", linkTo: "/AddPet", icon: pets },
-  { title: "Add Category", linkTo: "/AddCategory", icon: category },
+  { id: 0, title: "Main Page", linkTo: "/Main", icon: main },
+  { id: 1, title: "Add Animals", linkTo: "/AddAnimals", icon: pets },
+  { id: 2, title: "Add Category", linkTo: "/AddCategory", icon: category },
   {
-    title: "Add Pets With Category",
-    linkTo: "/AddPetsWithCategory",
+    id: 3,
+    title: "Add Animals/Category",
+    linkTo: "/Add_AnimalsWithCategory",
     icon: petscategory,
   },
 ];

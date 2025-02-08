@@ -1,11 +1,28 @@
 import { StyledLink, StyledNav } from "./componentsStyles";
 import { StyledNavWrapper } from "./componentsStyles";
 import { LinksAPI } from "../API/LinksAPI";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ILinks } from "../globalTypes";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
-  const [activeLink, setActiveLink] = useState<number>(0);
+  const [activeLink, setActiveLink] = useState<number>(-1);
+  const currentLocation = useLocation();
+  const navigate = useNavigate();
+  useEffect(() => {
+    const matchingLink = LinksAPI.find((e) =>
+      currentLocation.pathname.includes(e.linkTo)
+    );
+    if (currentLocation.pathname == "/") {
+      navigate("/Main");
+    }
+
+    if (matchingLink) {
+      setActiveLink(matchingLink.id);
+    }
+
+    window.scrollTo(0, 0);
+  }, [currentLocation.pathname]);
 
   return (
     <StyledNav>
@@ -13,6 +30,7 @@ const Navbar = () => {
       <StyledNavWrapper>
         {LinksAPI.map((e: ILinks, i: number) => (
           <StyledLink
+            key={i}
             to={e.linkTo}
             $isActive={activeLink === i ? true : false}
             onClick={() => setActiveLink(i)}
