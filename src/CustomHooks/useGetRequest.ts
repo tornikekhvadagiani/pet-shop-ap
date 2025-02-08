@@ -1,12 +1,15 @@
+import { toast } from "react-toastify";
+import { IAnimalsData, ICategoryData } from "../globalTypes";
+
 interface IGetReq {
   url: string;
   key: string;
-  setData: (data) => void;
+  setData: (data: ICategoryData[] | IAnimalsData[]) => void;
 }
 
 const useGetRequest = ({ url, key, setData }: IGetReq) => {
   return fetch(url, {
-    method: "GET", // Changed to GET request
+    method: "GET",
     headers: {
       Authorization: `Bearer ${key}`,
       "Content-Type": "application/json",
@@ -19,10 +22,12 @@ const useGetRequest = ({ url, key, setData }: IGetReq) => {
       return response.json();
     })
     .then((data) => {
-      setData(data);
+      setData(data.items);
     })
     .catch((error) => {
       console.error("Error:", error);
+      toast.error("Something Went Wrong!");
+
       throw error;
     });
 };

@@ -40,27 +40,27 @@ export const SubmitButton = styled.button`
   }
 `;
 
-export const FormMain = styled.div`
+export const StyledFormMain = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   width: 100%;
 `;
-export const Form = styled.form`
+export const StyledForm = styled.form`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
   gap: 100px;
 `;
 
-export const Label = styled.label`
+export const StyledLabel = styled.label`
   font-weight: bold;
   margin-bottom: 5px;
   margin: 10px 0px;
 `;
 
-export const Input = styled.input`
+export const StyledInput = styled.input`
   padding: 8px;
   margin-bottom: 15px;
   border: 1px solid #ccc;
@@ -69,7 +69,7 @@ export const Input = styled.input`
   outline: none;
 `;
 
-export const CheckboxContainer = styled.div`
+export const StyledCheckboxContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -78,13 +78,13 @@ export const CheckboxContainer = styled.div`
   width: 100%;
 `;
 
-export const InputFlex = styled.div`
+export const StyledInputFlex = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  width: 47%;
+  width: 44%;
 `;
-export const TextArea = styled.textarea`
+export const StyledTextArea = styled.textarea`
   padding: 8px;
   margin-bottom: 15px;
   border: 1px solid #ccc;
@@ -93,4 +93,14 @@ export const TextArea = styled.textarea`
   outline: none;
   resize: none;
   height: 200px;
+`;
+export const StyledSelect = styled.select`
+  padding: 20px;
+  outline: none;
+  font-size: 15px;
+`;
+export const StyledOption = styled.option`
+  padding: 10px;
+  font-size: 15px;
+  height: 40px;
 `;

@@ -3,17 +3,17 @@ import {
   GlobalMainComponentPadding,
   InfoText,
 } from "../../GlobalStyles";
-import CategoryForm from "./CategoryForm";
+import AnimalsWCategoryForm from "./AnimalsWCategoryForm";
 
-const Category = () => {
+const AnimalsWithCategory = () => {
   return (
     <GlobalMainComponentPadding>
       <GlobalMainComponentBox>
-        <InfoText>Add Category</InfoText>
-        <CategoryForm />
+        <InfoText>Create Animals With Category</InfoText>
+        <AnimalsWCategoryForm />
       </GlobalMainComponentBox>
     </GlobalMainComponentPadding>
   );
 };
 
-export default Category;
+export default AnimalsWithCategory;

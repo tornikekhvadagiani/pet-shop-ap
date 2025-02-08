@@ -6,6 +6,7 @@ import Navbar from "./components/Navbar";
 import Animals from "./pages/Animals/Animals";
 import { ToastContainer } from "react-toastify";
 import Category from "./pages/Category/Category";
+import AnimalsWithCategory from "./pages/AnimalsWithCategory/AnimalsWithCategory";
 function App() {
   return (
     <>
@@ -15,6 +16,10 @@ function App() {
           <Route path="/Main" element={<MainPage />} />
           <Route path="/AddAnimals" element={<Animals />} />
           <Route path="/AddCategory" element={<Category />} />
+          <Route
+            path="/Add_AnimalsWithCategory"
+            element={<AnimalsWithCategory />}
+          />
         </Routes>
         <ToastContainer
           position="bottom-right"

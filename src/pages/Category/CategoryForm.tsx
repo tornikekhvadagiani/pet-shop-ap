@@ -1,11 +1,11 @@
 import { useRef } from "react";
 import {
-  Form,
-  FormMain,
-  Input,
-  InputFlex,
-  Label,
-  TextArea,
+  StyledForm,
+  StyledFormMain,
+  StyledInput,
+  StyledInputFlex,
+  StyledLabel,
+  StyledTextArea,
 } from "../../GlobalStyles";
 import { SubmitButton } from "../../GlobalStyles";
 import { toast } from "react-toastify";
@@ -42,21 +42,21 @@ const CategoryForm = () => {
     }
   };
   return (
-    <Form onSubmit={addCategory}>
+    <StyledForm onSubmit={addCategory}>
       <StyledCategoryForm>
-        <InputFlex>
-          <Label>Category Title</Label>
-          <Input type="text" name="name" ref={titleRef} />
-        </InputFlex>
+        <StyledInputFlex>
+          <StyledLabel>Category Title</StyledLabel>
+          <StyledInput type="text" name="name" ref={titleRef} />
+        </StyledInputFlex>
 
-        <InputFlex>
-          <Label>Category Desciption</Label>
-          <TextArea ref={descriptionRef} />
-        </InputFlex>
+        <StyledInputFlex>
+          <StyledLabel>Category Desciption</StyledLabel>
+          <StyledTextArea ref={descriptionRef} />
+        </StyledInputFlex>
       </StyledCategoryForm>
 
       <SubmitButton type="submit">Submit</SubmitButton>
-    </Form>
+    </StyledForm>
   );
 };
 

@@ -1,11 +1,11 @@
 import React, { useRef } from "react";
 import {
-  CheckboxContainer,
-  Input,
-  Label,
-  Form,
-  InputFlex,
-  FormMain,
+  StyledCheckboxContainer,
+  StyledInput,
+  StyledLabel,
+  StyledForm,
+  StyledInputFlex,
+  StyledFormMain,
 } from "../../GlobalStyles";
 import { SubmitButton } from "../../GlobalStyles";
 import { toast } from "react-toastify";
@@ -52,38 +52,38 @@ const AddAnimalForm = () => {
   };
 
   return (
-    <Form onSubmit={addAnimal}>
-      <FormMain>
-        <InputFlex>
-          <Label>Name</Label>
-          <Input type="text" name="name" ref={nameRef} />
-        </InputFlex>
+    <StyledForm onSubmit={addAnimal}>
+      <StyledFormMain>
+        <StyledInputFlex>
+          <StyledLabel>Name</StyledLabel>
+          <StyledInput type="text" name="name" ref={nameRef} />
+        </StyledInputFlex>
 
-        <InputFlex>
-          <Label>Price (USD)</Label>
-          <Input type="number" name="priceUSD" ref={priceUSDRef} />
-        </InputFlex>
+        <StyledInputFlex>
+          <StyledLabel>Price (USD)</StyledLabel>
+          <StyledInput type="number" name="priceUSD" ref={priceUSDRef} />
+        </StyledInputFlex>
 
-        <InputFlex>
-          <Label>Description</Label>
-          <Input type="text" name="description" ref={descriptionRef} />
-        </InputFlex>
+        <StyledInputFlex>
+          <StyledLabel>Description</StyledLabel>
+          <StyledInput type="text" name="description" ref={descriptionRef} />
+        </StyledInputFlex>
 
-        <InputFlex>
-          <Label>Stock</Label>
-          <Input type="number" name="stock" ref={stockRef} />
-        </InputFlex>
+        <StyledInputFlex>
+          <StyledLabel>Stock</StyledLabel>
+          <StyledInput type="number" name="stock" ref={stockRef} />
+        </StyledInputFlex>
 
-        <InputFlex>
-          <CheckboxContainer>
+        <StyledInputFlex>
+          <StyledCheckboxContainer>
             <input type="checkbox" name="isPopular" ref={isPopularRef} />
-            <Label>Is Popular?</Label>
-          </CheckboxContainer>
-        </InputFlex>
-      </FormMain>
+            <StyledLabel>Is Popular?</StyledLabel>
+          </StyledCheckboxContainer>
+        </StyledInputFlex>
+      </StyledFormMain>
 
       <SubmitButton type="submit">Submit</SubmitButton>
-    </Form>
+    </StyledForm>
   );
 };
 

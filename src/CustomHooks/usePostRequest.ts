@@ -1,11 +1,23 @@
 import { toast } from "react-toastify";
 
-interface IData {
-  name: string | null | undefined;
+export interface IData {
+  name?: string | null | undefined;
+  description?: string | null | undefined;
   priceUSD?: string | null | undefined;
-  description: string | null | undefined;
   stock?: string | null | undefined;
   isPopular?: boolean;
+
+  animal?: {
+    name: string | null | undefined;
+    priceUSD: string | null | undefined;
+    description: string | null | undefined;
+    stock: string | null | undefined;
+    isPopular: boolean;
+  };
+  category?: {
+    name: string | null | undefined;
+    description: string | null | undefined;
+  };
 }
 
 interface IPostReq {
@@ -38,9 +50,17 @@ const usePostRequest = async ({
     }
 
     await response.json();
+    console.log(endPoint);
 
     toast.success(
-      `${endPoint[0].toUpperCase()}${endPoint.slice(1)} Successfully Created!`
+      !endPoint.includes("_")
+        ? `${endPoint[0].toUpperCase()}${endPoint.slice(
+            1
+          )} Successfully Created!`
+        : endPoint
+            .split("_")
+            .map((e) => e[0].toUpperCase() + e.slice(1))
+            .join(" ") + " Successfully Created!"
     );
 
     navigate("/");
