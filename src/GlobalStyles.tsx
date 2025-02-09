@@ -116,3 +116,22 @@ export const StyledLoaderMain = styled.div`
     height: 300px;
   }
 `;
+export const StyledBlueButton = styled.button`
+  background-color: #007bff;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #0056b3;
+  }
+
+  &:active {
+    background-color: #004099;
+  }
+`;

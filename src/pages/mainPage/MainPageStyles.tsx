@@ -1,10 +1,16 @@
 import styled from "styled-components";
 
-// Styled Components
+export const StyledManageHeader = styled.div`
+  display: flex;
+  gap: 20px;
+  margin-bottom: 40px;
+  justify-content: center;
+  width: 100%;
+`;
+
 export const StyledAnimalsContainer = styled.div`
   width: 100%;
   padding: 20px;
-  background: #1e1e2f;
   border-radius: 12px;
 `;
 
@@ -13,25 +19,54 @@ export const StyledListHeader = styled.div`
   justify-content: space-between;
   padding: 15px;
   font-weight: bold;
-  background: #292942;
-  color: #fff;
   border-radius: 8px;
+  border-bottom: 1px solid #444;
+
   span {
     min-width: 25%;
   }
 `;
-
+export const StyledCategoryHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  font-weight: bold;
+  border-bottom: 1px solid white;
+  border-radius: 8px;
+  span {
+    min-width: 50%;
+  }
+`;
 export const StyledListItem = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 20px;
   border-bottom: 1px solid #444;
-  color: #ddd;
+  color: black;
+  margin: 5px 0px 20px 0px;
+  align-items: center;
+  position: relative;
   &:last-child {
     border-bottom: none;
   }
   span {
     min-width: 25%;
+  }
+`;
+export const StyledListItemCategory = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  border-bottom: 1px solid #444;
+  color: black;
+  margin: 5px 0px 20px 0px;
+  align-items: center;
+  position: relative;
+  &:last-child {
+    border-bottom: none;
+  }
+  span {
+    min-width: 50%;
   }
 `;
 
@@ -45,11 +80,27 @@ export const StyledPopularBadge = styled.span<{ $isPopular: boolean }>`
 `;
 
 export const StyledPrice = styled.span`
-  color: #f0b90b;
+  color: limegreen;
   font-weight: bold;
 `;
 
 export const StyledStock = styled.span<{ $stock: number }>`
   color: ${({ $stock }) => ($stock > 0 ? "#4CAF50" : "#FF5722")};
   font-weight: bold;
+`;
+
+export const StyledEdit = styled.div`
+  position: absolute;
+  left: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  transition: all 0.1s;
+  font-size: 20px;
+`;
+
+export const StyledSpan = styled.span`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;

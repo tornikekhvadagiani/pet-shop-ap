@@ -13,7 +13,7 @@ function App() {
       <MainWrapper>
         <Navbar />
         <Routes>
-          <Route path="/Main" element={<MainPage />} />
+          <Route path="/Main/:fetchEndPoint" element={<MainPage />} />
           <Route path="/AddAnimals" element={<Animals />} />
           <Route path="/AddCategory" element={<Category />} />
           <Route

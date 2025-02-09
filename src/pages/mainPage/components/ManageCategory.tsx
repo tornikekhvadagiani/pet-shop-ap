@@ -1,13 +1,10 @@
 import { useEffect, useState } from "react";
 import {
   StyledAnimalsContainer,
+  StyledCategoryHeader,
   StyledEdit,
-  StyledListHeader,
-  StyledListItem,
-  StyledPopularBadge,
-  StyledPrice,
+  StyledListItemCategory,
   StyledSpan,
-  StyledStock,
 } from "../MainPageStyles";
 import useGetRequest from "../../../CustomHooks/useGetRequest";
 import { IAnimalsData } from "../../../globalTypes";
@@ -19,18 +16,14 @@ import { FaEdit } from "react-icons/fa";
 interface Item {
   name: string;
   description: string;
-  priceUSD: string;
-  priceGEL: string;
-  stock: string;
-  isPopular: boolean;
 }
-const ManageAnimals = () => {
+const ManageCategory = () => {
   const [animalsData, setAnimalsData] = useState<IAnimalsData[] | null>(null);
   const [formattedAnimals, setFormattedAnimals] = useState<Item[]>([]);
   const [dolarToGelPrice, setDolarToGelPrice] = useState<number>(0);
   const [isLoaded, setIsLoaded] = useState<boolean>(true);
 
-  const { VITE_ANIMALS_KEY, VITE_API_URL } = import.meta.env;
+  const { VITE_CATEGORY_KEY, VITE_API_URL } = import.meta.env;
   useEffect(() => {
     useDolarToGel().then((rate) => setDolarToGelPrice(rate));
   }, []);
@@ -39,22 +32,18 @@ const ManageAnimals = () => {
     if (dolarToGelPrice === null) return;
 
     useGetRequest({
-      key: VITE_ANIMALS_KEY,
+      key: VITE_CATEGORY_KEY,
+      url: `${VITE_API_URL}/category`,
+      setIsLoaded: setIsLoaded,
       setData: (data: IAnimalsData[]) => {
         setAnimalsData(data);
         const formattedData: Item[] = data.map((item) => ({
           name: item.name,
           description: item.description,
-          priceUSD: item.priceUSD,
-          priceGEL: (Number(item.priceUSD) * dolarToGelPrice).toFixed(2),
-          stock: item.stock,
-          isPopular: item.isPopular,
         }));
 
         setFormattedAnimals(formattedData);
       },
-      setIsLoaded: setIsLoaded,
-      url: `${VITE_API_URL}/animals`,
     });
   }, [dolarToGelPrice]);
 
@@ -73,30 +62,21 @@ const ManageAnimals = () => {
     );
   return (
     <StyledAnimalsContainer>
-      <StyledListHeader>
+      <StyledCategoryHeader>
         <StyledSpan>Name</StyledSpan>
-        <StyledSpan>Price (USD/GEL)</StyledSpan>
-        <StyledSpan>Stock</StyledSpan>
-        <StyledSpan>Popular</StyledSpan>
-      </StyledListHeader>
+        <StyledSpan>Description</StyledSpan>
+      </StyledCategoryHeader>
       {formattedAnimals?.map((item, index) => (
-        <StyledListItem key={index}>
+        <StyledListItemCategory key={index}>
           <StyledEdit>
             <FaEdit />
           </StyledEdit>
           <StyledSpan>{item.name}</StyledSpan>
-          <StyledPrice>
-            ${item.priceUSD} / {item.priceGEL} GEL
-          </StyledPrice>
-          <StyledStock $stock={Number(item.stock)}>{item.stock}</StyledStock>
-
-          <StyledPopularBadge $isPopular={item.isPopular}>
-            {item.isPopular ? "Yes" : "No"}
-          </StyledPopularBadge>
-        </StyledListItem>
+          <StyledSpan>{item.description}</StyledSpan>
+        </StyledListItemCategory>
       ))}
     </StyledAnimalsContainer>
   );
 };
 
-export default ManageAnimals;
+export default ManageCategory;

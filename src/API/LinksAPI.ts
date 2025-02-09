@@ -5,7 +5,7 @@ import main from "../../public/assets/icons/main.png";
 import { ILinks } from "../globalTypes";
 
 export const LinksAPI: ILinks[] = [
-  { id: 0, title: "Main Page", linkTo: "/Main", icon: main },
+  { id: 0, title: "Main Page", linkTo: "/Main/Animals", icon: main },
   { id: 1, title: "Add Animals", linkTo: "/AddAnimals", icon: pets },
   { id: 2, title: "Add Category", linkTo: "/AddCategory", icon: category },
   {

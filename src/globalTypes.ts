@@ -17,6 +17,17 @@ export interface IAnimalsData {
   _is_deleted: boolean;
   _self_link: string;
   _user: string;
+  animal?: {
+    isPopular: true;
+    name: string;
+    description: string;
+    priceUSD: string;
+    stock: string;
+  };
+  category?: {
+    name: string;
+    description: string;
+  };
 }
 export interface ICategoryData {
   _uuid: string;
