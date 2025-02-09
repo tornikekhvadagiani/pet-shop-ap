@@ -15,3 +15,10 @@ html,
 #root {
   height: 100%;
 }
+.loader svg {
+  width: 500px;
+  
+}
+.loader svg path{
+  
+}

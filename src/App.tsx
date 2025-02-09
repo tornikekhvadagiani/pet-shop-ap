@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
-import MainPage from "./pages/mainPage/MainPage";
+import MainPage from "./pages/MainPage/MainPage";
 import { MainWrapper } from "./GlobalStyles";
 import Navbar from "./components/Navbar";
 import Animals from "./pages/Animals/Animals";

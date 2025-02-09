@@ -38,7 +38,6 @@ const AnimalsWCategoryForm = () => {
         url: `${VITE_API_URL}/animals`,
       });
     };
-
     const fetchCategories = async () => {
       await useGetRequest({
         key: VITE_CATEGORY_KEY,
@@ -88,7 +87,6 @@ const AnimalsWCategoryForm = () => {
       },
     };
 
-
     usePostRequest({
       data: newData,
       endPoint: "animals_with_categories",
@@ -122,7 +120,7 @@ const AnimalsWCategoryForm = () => {
           value={selectedCategory?._uuid || ""}
         >
           <StyledOption value="" disabled hidden>
-            Select a category
+            Select an category
           </StyledOption>
           {categoryData?.map((e) => (
             <StyledOption value={e._uuid} key={e._uuid}>

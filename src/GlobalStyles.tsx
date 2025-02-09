@@ -22,6 +22,7 @@ export const GlobalMainComponentBox = styled.div`
 export const InfoText = styled.h1`
   font-size: 40px;
   margin-bottom: 50px;
+  color: royalblue;
 `;
 export const SubmitButton = styled.button`
   border: none;
@@ -103,4 +104,15 @@ export const StyledOption = styled.option`
   padding: 10px;
   font-size: 15px;
   height: 40px;
+`;
+export const StyledLoaderMain = styled.div`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  svg {
+    width: 300px;
+    height: 300px;
+  }
 `;

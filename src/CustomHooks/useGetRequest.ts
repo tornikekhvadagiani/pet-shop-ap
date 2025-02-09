@@ -5,9 +5,11 @@ interface IGetReq {
   url: string;
   key: string;
   setData: (data: ICategoryData[] | IAnimalsData[]) => void;
+  setIsLoaded?: (value: boolean) => void;
 }
 
-const useGetRequest = ({ url, key, setData }: IGetReq) => {
+const useGetRequest = ({ url, key, setData, setIsLoaded }: IGetReq) => {
+  setIsLoaded && setIsLoaded(false);
   return fetch(url, {
     method: "GET",
     headers: {
@@ -29,7 +31,8 @@ const useGetRequest = ({ url, key, setData }: IGetReq) => {
       toast.error("Something Went Wrong!");
 
       throw error;
-    });
+    })
+    .finally(() => setIsLoaded && setIsLoaded(true));
 };
 
 export default useGetRequest;
