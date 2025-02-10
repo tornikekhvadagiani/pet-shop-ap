@@ -17,6 +17,10 @@ export const GlobalMainComponentBox = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+  overflow-y: scroll;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 
 export const InfoText = styled.h1`

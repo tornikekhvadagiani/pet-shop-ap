@@ -11,7 +11,7 @@ const ManageHeader = () => {
   return (
     <StyledManageHeader>
       {fetchLinks.map((e: links) => (
-        <Link to={e.linkTo}>
+        <Link to={e.linkTo} key={e.linkTo}>
           <StyledBlueButton>{e.title}</StyledBlueButton>
         </Link>
       ))}

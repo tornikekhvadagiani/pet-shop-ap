@@ -1,10 +1,13 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import { petsReducer } from "./pets/pets.reducer.ts";
+import { editReducer } from "./animals/edit.reducer";
 
 const rootReducer = combineReducers({
-  petsList: petsReducer,
+  edit: editReducer,
 });
 
 export const store = configureStore({
   reducer: rootReducer,
 });
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;

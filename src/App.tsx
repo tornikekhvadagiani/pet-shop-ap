@@ -15,9 +15,15 @@ function App() {
         <Routes>
           <Route path="/Main/:fetchEndPoint" element={<MainPage />} />
           <Route path="/AddAnimals" element={<Animals />} />
+          <Route path="/EditAnimals" element={<Animals />} />
           <Route path="/AddCategory" element={<Category />} />
+          <Route path="/EditCategory" element={<Category />} />
           <Route
             path="/Add_AnimalsWithCategory"
+            element={<AnimalsWithCategory />}
+          />
+            <Route
+            path="/Edit_AnimalsWithCategory"
             element={<AnimalsWithCategory />}
           />
         </Routes>

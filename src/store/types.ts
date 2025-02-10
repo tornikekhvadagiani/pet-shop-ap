@@ -1,9 +1,11 @@
-export interface Pet {
-  id: number;
+export interface editItem {
   name: string;
-  type: string;
+  description: string;
+  priceUSD: string;
+  priceGEL: string;
+  stock: string;
+  isPopular: boolean;
+  id: string;
 }
 
-export interface PetsState {
-  petsList: Pet[];
-}
+export interface IInitialState {}

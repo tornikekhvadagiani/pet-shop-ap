@@ -7,7 +7,6 @@ import ManageHeader from "./ManageHeader";
 const MainPageList = () => {
   const { fetchEndPoint } = useParams();
   const endpoint = fetchEndPoint?.toLowerCase();
-  console.log(endpoint);
 
   const renderComponent = () => {
     switch (endpoint) {

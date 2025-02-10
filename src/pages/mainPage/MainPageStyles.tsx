@@ -18,8 +18,6 @@ export const StyledListHeader = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 15px;
-  font-weight: bold;
-  border-radius: 8px;
   border-bottom: 1px solid #444;
 
   span {
@@ -30,9 +28,8 @@ export const StyledCategoryHeader = styled.div`
   display: flex;
   justify-content: space-between;
   padding: 15px;
-  font-weight: bold;
-  border-bottom: 1px solid white;
-  border-radius: 8px;
+  border-bottom: 1px solid #444;
+
   span {
     min-width: 50%;
   }
@@ -97,6 +94,9 @@ export const StyledEdit = styled.div`
   cursor: pointer;
   transition: all 0.1s;
   font-size: 20px;
+  gap: 10px;
+  display: flex;
+
 `;
 
 export const StyledSpan = styled.span`
