@@ -21,16 +21,7 @@ import {
 import { RootState, AppDispatch } from "../../../store/index";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
-interface Item {
-  name: string;
-  description: string;
-  priceUSD: string;
-  priceGEL: string;
-  stock: string;
-  isPopular: boolean;
-  id: string;
-}
+import { IAnimalsData } from "../../../globalTypes";
 
 const ManageAnimals = () => {
   const [dolarToGelPrice, setDolarToGelPrice] = useState<number>(0);
@@ -40,6 +31,7 @@ const ManageAnimals = () => {
   const { animals, isLoading } = useSelector(
     (state: RootState) => state.animals
   );
+  console.log(animals);
 
   useEffect(() => {
     useDolarToGel().then((rate) => setDolarToGelPrice(rate));
@@ -47,23 +39,22 @@ const ManageAnimals = () => {
 
   useEffect(() => {
     if (dolarToGelPrice > 0) {
-      dispatch(fetchAnimals({ url: VITE_API_URL, key: VITE_ANIMALS_KEY }));
+      dispatch(
+        fetchAnimals({ url: VITE_API_URL + "/animals", key: VITE_ANIMALS_KEY })
+      );
     }
   }, [dolarToGelPrice, dispatch]);
 
   const deleteItem = (id: string) => {
     dispatch(deleteAnimal({ id, key: VITE_ANIMALS_KEY, url: VITE_API_URL }))
       .unwrap()
-      .then(() => {
-        toast.success("Animal deleted successfully!");
-      })
       .catch((error: string) => {
         toast.error(error || "Failed to delete animal.");
       });
   };
 
-  const edit = (currentInfo: Item) => {
-    navigate("/EditAnimals", { state: currentInfo });
+  const edit = (currentInfo: IAnimalsData) => {
+    navigate(`/EditAnimals/${currentInfo._uuid}`);
   };
 
   if (isLoading)
@@ -81,8 +72,8 @@ const ManageAnimals = () => {
         <StyledSpan>Stock</StyledSpan>
         <StyledSpan>Popular</StyledSpan>
       </StyledListHeader>
-      {animals.map((item: any) => (
-        <StyledListItem key={item}>
+      {animals.map((item: IAnimalsData) => (
+        <StyledListItem key={item._uuid}>
           <StyledEdit>
             <FaTrash onClick={() => deleteItem(item._uuid)} color="#f72d2d" />
             <FaEdit onClick={() => edit(item)} />

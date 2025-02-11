@@ -5,7 +5,6 @@ import { useEffect, useState } from "react";
 import { ILinks } from "../globalTypes";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { editAction } from "../store/animals/edit.action";
 import { RootState } from "../store";
 
 const Navbar = () => {
@@ -13,14 +12,8 @@ const Navbar = () => {
   const currentLocation = useLocation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const editingInfo = useSelector((state: RootState) => state.edit);
 
   useEffect(() => {
-    if (!currentLocation.pathname.includes("Edit")) {
-      dispatch(editAction(null));
-      console.log(editingInfo);
-    }
-
     const matchingLink = LinksAPI.find((e) =>
       currentLocation.pathname.includes(e.linkTo)
     );

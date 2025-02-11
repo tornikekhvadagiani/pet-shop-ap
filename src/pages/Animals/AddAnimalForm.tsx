@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   StyledCheckboxContainer,
   StyledInput,
@@ -9,11 +9,14 @@ import {
 } from "../../GlobalStyles";
 import { SubmitButton } from "../../GlobalStyles";
 import { toast } from "react-toastify";
-import usePostRequest from "../../CustomHooks/usePostRequest";
-import { useNavigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "../../store";
-import usePutRequest from "../../CustomHooks/usePutRequest";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState, AppDispatch } from "../../store";
+import {
+  fetchAnimalById,
+  addAnimal,
+  updateAnimal,
+} from "../../store/animals/animals.thunks";
 
 const AddAnimalForm = () => {
   const nameRef = useRef<HTMLInputElement>(null);
@@ -22,15 +25,28 @@ const AddAnimalForm = () => {
   const stockRef = useRef<HTMLInputElement>(null);
   const isPopularRef = useRef<HTMLInputElement>(null);
 
-  const { VITE_ANIMALS_KEY, VITE_API_URL } = import.meta.env;
   const navigate = useNavigate();
-  const editingInfo = useSelector((state: RootState) => state.edit);
-  const isEditing = editingInfo && Object.keys(editingInfo).length > 0;
+  const { uuid } = useParams();
+  const isEditing = Boolean(uuid);
 
-  const addAnimal = (e: React.FormEvent<HTMLFormElement>) => {
+  const dispatch = useDispatch<AppDispatch>();
+
+  const editingInfo = useSelector((state: RootState) =>
+    state.animals.animals.find((animal) => animal._uuid === uuid)
+  );
+  console.log(editingInfo);
+
+  useEffect(() => {
+    if (isEditing) {
+      dispatch(fetchAnimalById(uuid as string));
+    }
+  }, [dispatch, isEditing, uuid]);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = {
+      _uuid: isEditing && uuid ? uuid : "",
       name: nameRef.current?.value.trim() || "",
       priceUSD: priceUSDRef.current?.value.trim() || "",
       description: descriptionRef.current?.value.trim() || "",
@@ -48,30 +64,20 @@ const AddAnimalForm = () => {
       return;
     }
 
-    isEditing
-      ? usePutRequest({
-          url: VITE_API_URL,
-          key: VITE_ANIMALS_KEY,
-          endPoint: "animals",
-          data: formData,
-          navigate,
-          uuid: editingInfo?.id,
-        })
-      : usePostRequest({
-          url: VITE_API_URL,
-          key: VITE_ANIMALS_KEY,
-          endPoint: "animals",
-          data: formData,
-          navigate,
-        });
+    if (isEditing && uuid) {
+      dispatch(updateAnimal({ uuid, formData })).then(() =>
+        navigate("/Main/Animals")
+      );
+    } else {
+      dispatch(addAnimal(formData)).then(() => navigate("/Main/Animals"));
+    }
   };
-  console.log(Boolean({}));
 
   return (
-    <StyledForm onSubmit={addAnimal}>
+    <StyledForm onSubmit={handleSubmit}>
       <StyledFormMain>
         <StyledInputFlex>
-          <StyledLabel>Name</StyledLabel>
+          <StyledLabel>Animal Name</StyledLabel>
           <StyledInput
             type="text"
             name="name"
@@ -81,7 +87,7 @@ const AddAnimalForm = () => {
         </StyledInputFlex>
 
         <StyledInputFlex>
-          <StyledLabel>Price (USD)</StyledLabel>
+          <StyledLabel>Animal Price (USD)</StyledLabel>
           <StyledInput
             type="number"
             name="priceUSD"
@@ -91,7 +97,7 @@ const AddAnimalForm = () => {
         </StyledInputFlex>
 
         <StyledInputFlex>
-          <StyledLabel>Description</StyledLabel>
+          <StyledLabel>Animal Description</StyledLabel>
           <StyledInput
             type="text"
             name="description"
@@ -101,7 +107,7 @@ const AddAnimalForm = () => {
         </StyledInputFlex>
 
         <StyledInputFlex>
-          <StyledLabel>Stock</StyledLabel>
+          <StyledLabel>Animal Stock</StyledLabel>
           <StyledInput
             type="number"
             name="stock"
@@ -124,7 +130,7 @@ const AddAnimalForm = () => {
       </StyledFormMain>
 
       <SubmitButton type="submit">
-        Submit {isEditing ? "Editing" : ""}
+        {isEditing ? "Update Animal" : "Add Animal"}
       </SubmitButton>
     </StyledForm>
   );

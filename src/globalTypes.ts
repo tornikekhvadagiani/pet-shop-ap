@@ -29,6 +29,15 @@ export interface IAnimalsData {
     description: string;
   };
 }
+export interface IAnimalsMainData {
+  _uuid: string;
+  name: string;
+  description: string;
+  priceUSD: string;
+  stock: string;
+  isPopular: boolean;
+}
+
 export interface ICategoryData {
   _uuid: string;
   name: string;
