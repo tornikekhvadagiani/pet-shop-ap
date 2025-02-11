@@ -1,12 +1,4 @@
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchAnimals } from "../../../store/animals/animalsSlice";
-import { RootState, AppDispatch } from "../../../store";
-import { useDolarToGel } from "../../../CustomHooks/useDolarToGel";
-import { useNavigate } from "react-router-dom";
-import { FaEdit, FaTrash } from "react-icons/fa";
-import { editAction } from "../../../store/animals/edit.action";
-
 import {
   StyledAnimalsContainer,
   StyledEdit,
@@ -17,8 +9,18 @@ import {
   StyledSpan,
   StyledStock,
 } from "../MainPageStyles";
+
+import { useDolarToGel } from "../../../CustomHooks/useDolarToGel";
 import { StyledLoaderMain } from "../../../GlobalStyles";
-import useDeleteRequest from "../../../CustomHooks/useDeleteRequest";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchAnimals,
+  deleteAnimal,
+} from "../../../store/animals/animals.thunks";
+import { RootState, AppDispatch } from "../../../store/index";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 interface Item {
   name: string;
@@ -31,13 +33,10 @@ interface Item {
 }
 
 const ManageAnimals = () => {
-  const [formattedAnimals, setFormattedAnimals] = useState<Item[]>([]);
   const [dolarToGelPrice, setDolarToGelPrice] = useState<number>(0);
   const { VITE_ANIMALS_KEY, VITE_API_URL } = import.meta.env;
-
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-
   const { animals, isLoading } = useSelector(
     (state: RootState) => state.animals
   );
@@ -48,51 +47,29 @@ const ManageAnimals = () => {
 
   useEffect(() => {
     if (dolarToGelPrice > 0) {
-      dispatch(
-        fetchAnimals({ url: `${VITE_API_URL}/animals`, key: VITE_ANIMALS_KEY })
-      );
+      dispatch(fetchAnimals({ url: VITE_API_URL, key: VITE_ANIMALS_KEY }));
     }
-  }, [dispatch, dolarToGelPrice]);
-
-  useEffect(() => {
-    const formattedData: Item[] = animals.map((item) => ({
-      name: item.name,
-      description: item.description,
-      priceUSD: item.priceUSD,
-      priceGEL: (Number(item.priceUSD) * dolarToGelPrice).toFixed(2),
-      stock: item.stock,
-      isPopular: item.isPopular,
-      id: item._uuid,
-    }));
-    setFormattedAnimals(formattedData);
-  }, [animals, dolarToGelPrice]);
+  }, [dolarToGelPrice, dispatch]);
 
   const deleteItem = (id: string) => {
-    useDeleteRequest({
-      endPoint: "animals",
-      key: VITE_ANIMALS_KEY,
-      url: VITE_API_URL,
-      uuid: id,
-      setIsLoaded: () => {}, // No need for `setIsLoaded` now
-      refreshData: () =>
-        dispatch(
-          fetchAnimals({
-            url: `${VITE_API_URL}/animals`,
-            key: VITE_ANIMALS_KEY,
-          })
-        ),
-    });
+    dispatch(deleteAnimal({ id, key: VITE_ANIMALS_KEY, url: VITE_API_URL }))
+      .unwrap()
+      .then(() => {
+        toast.success("Animal deleted successfully!");
+      })
+      .catch((error: string) => {
+        toast.error(error || "Failed to delete animal.");
+      });
   };
 
   const edit = (currentInfo: Item) => {
-    dispatch(editAction(currentInfo));
-    navigate("/EditAnimals");
+    navigate("/EditAnimals", { state: currentInfo });
   };
 
   if (isLoading)
     return (
       <StyledLoaderMain>
-        <h1>Loading</h1>
+        <h1>Loading...</h1>
       </StyledLoaderMain>
     );
 
@@ -104,15 +81,16 @@ const ManageAnimals = () => {
         <StyledSpan>Stock</StyledSpan>
         <StyledSpan>Popular</StyledSpan>
       </StyledListHeader>
-      {formattedAnimals?.map((item, index) => (
-        <StyledListItem key={index}>
+      {animals.map((item: any) => (
+        <StyledListItem key={item}>
           <StyledEdit>
-            <FaTrash onClick={() => deleteItem(item.id)} color="#f72d2d" />
+            <FaTrash onClick={() => deleteItem(item._uuid)} color="#f72d2d" />
             <FaEdit onClick={() => edit(item)} />
           </StyledEdit>
           <StyledSpan>{item.name}</StyledSpan>
           <StyledPrice>
-            ${item.priceUSD} / {item.priceGEL} ₾
+            ${item.priceUSD} /{" "}
+            {(Number(item.priceUSD) * dolarToGelPrice).toFixed(2)} ₾
           </StyledPrice>
           <StyledStock $stock={Number(item.stock)}>{item.stock}</StyledStock>
           <StyledPopularBadge $isPopular={item.isPopular}>
