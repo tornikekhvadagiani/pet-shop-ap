@@ -1,12 +1,10 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit";
-import { editReducer } from "./animals/edit.reducer";
-
-const rootReducer = combineReducers({
-  edit: editReducer,
-});
+import { configureStore } from "@reduxjs/toolkit";
+import animalsReducer from "./animals/animalsSlice";
 
 export const store = configureStore({
-  reducer: rootReducer,
+  reducer: {
+    animals: animalsReducer,
+  },
 });
 
 export type RootState = ReturnType<typeof store.getState>;

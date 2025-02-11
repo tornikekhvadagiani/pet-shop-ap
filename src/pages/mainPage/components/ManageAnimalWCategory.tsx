@@ -9,7 +9,6 @@ import {
 import useGetRequest from "../../../CustomHooks/useGetRequest";
 import { IAnimalsData } from "../../../globalTypes";
 import { useDolarToGel } from "../../../CustomHooks/useDolarToGel";
-import { TailSpin } from "react-loader-spinner";
 import { StyledLoaderMain } from "../../../GlobalStyles";
 import { FaEdit } from "react-icons/fa";
 interface ITem {
@@ -62,14 +61,14 @@ const ManageAnimalsWCategory = () => {
   if (!isLoaded)
     return (
       <StyledLoaderMain>
-        <TailSpin color="royalblue" />
+        <h1>Loading</h1>
       </StyledLoaderMain>
     );
 
   if (!isLoaded)
     return (
       <StyledLoaderMain>
-        <TailSpin color="royalblue" />
+        <h1>Loading</h1>
       </StyledLoaderMain>
     );
   return (

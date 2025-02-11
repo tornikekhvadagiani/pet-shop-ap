@@ -1,4 +1,12 @@
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAnimals } from "../../../store/animals/animalsSlice";
+import { RootState, AppDispatch } from "../../../store";
+import { useDolarToGel } from "../../../CustomHooks/useDolarToGel";
+import { useNavigate } from "react-router-dom";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import { editAction } from "../../../store/animals/edit.action";
+
 import {
   StyledAnimalsContainer,
   StyledEdit,
@@ -9,17 +17,9 @@ import {
   StyledSpan,
   StyledStock,
 } from "../MainPageStyles";
-import useGetRequest from "../../../CustomHooks/useGetRequest";
-import { IAnimalsData } from "../../../globalTypes";
-import { useDolarToGel } from "../../../CustomHooks/useDolarToGel";
-import { TailSpin } from "react-loader-spinner";
 import { StyledLoaderMain } from "../../../GlobalStyles";
-import { FaEdit, FaTrash } from "react-icons/fa";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../../store";
-import { editAction } from "../../../store/animals/edit.action";
-import { useNavigate } from "react-router-dom";
 import useDeleteRequest from "../../../CustomHooks/useDeleteRequest";
+
 interface Item {
   name: string;
   description: string;
@@ -33,41 +33,39 @@ interface Item {
 const ManageAnimals = () => {
   const [formattedAnimals, setFormattedAnimals] = useState<Item[]>([]);
   const [dolarToGelPrice, setDolarToGelPrice] = useState<number>(0);
-  const [isLoaded, setIsLoaded] = useState<boolean>(true);
   const { VITE_ANIMALS_KEY, VITE_API_URL } = import.meta.env;
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
+
+  const { animals, isLoading } = useSelector(
+    (state: RootState) => state.animals
+  );
+
   useEffect(() => {
     useDolarToGel().then((rate) => setDolarToGelPrice(rate));
   }, []);
 
-  const fetchAnimals = async () => {
-    return new Promise<void>((resolve) => {
-      useGetRequest({
-        key: VITE_ANIMALS_KEY,
-        setData: (data: IAnimalsData[]) => {
-          const formattedData: Item[] = data.map((item) => ({
-            name: item.name,
-            description: item.description,
-            priceUSD: item.priceUSD,
-            priceGEL: (Number(item.priceUSD) * dolarToGelPrice).toFixed(2),
-            stock: item.stock,
-            isPopular: item.isPopular,
-            id: item._uuid,
-          }));
-          setFormattedAnimals(formattedData);
-          resolve();
-        },
-        setIsLoaded,
-        url: `${VITE_API_URL}/animals`,
-      });
-    });
-  };
+  useEffect(() => {
+    if (dolarToGelPrice > 0) {
+      dispatch(
+        fetchAnimals({ url: `${VITE_API_URL}/animals`, key: VITE_ANIMALS_KEY })
+      );
+    }
+  }, [dispatch, dolarToGelPrice]);
 
   useEffect(() => {
-    if (dolarToGelPrice > 0) fetchAnimals();
-  }, [dolarToGelPrice]);
+    const formattedData: Item[] = animals.map((item) => ({
+      name: item.name,
+      description: item.description,
+      priceUSD: item.priceUSD,
+      priceGEL: (Number(item.priceUSD) * dolarToGelPrice).toFixed(2),
+      stock: item.stock,
+      isPopular: item.isPopular,
+      id: item._uuid,
+    }));
+    setFormattedAnimals(formattedData);
+  }, [animals, dolarToGelPrice]);
 
   const deleteItem = (id: string) => {
     useDeleteRequest({
@@ -75,19 +73,26 @@ const ManageAnimals = () => {
       key: VITE_ANIMALS_KEY,
       url: VITE_API_URL,
       uuid: id,
-      setIsLoaded,
-      refreshData: fetchAnimals,
+      setIsLoaded: () => {}, // No need for `setIsLoaded` now
+      refreshData: () =>
+        dispatch(
+          fetchAnimals({
+            url: `${VITE_API_URL}/animals`,
+            key: VITE_ANIMALS_KEY,
+          })
+        ),
     });
   };
+
   const edit = (currentInfo: Item) => {
     dispatch(editAction(currentInfo));
-
     navigate("/EditAnimals");
   };
-  if (!isLoaded)
+
+  if (isLoading)
     return (
       <StyledLoaderMain>
-        <TailSpin color="royalblue" />
+        <h1>Loading</h1>
       </StyledLoaderMain>
     );
 

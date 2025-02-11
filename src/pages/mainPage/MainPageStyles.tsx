@@ -1,5 +1,4 @@
 import styled from "styled-components";
-
 export const StyledManageHeader = styled.div`
   display: flex;
   gap: 20px;
@@ -96,7 +95,6 @@ export const StyledEdit = styled.div`
   font-size: 20px;
   gap: 10px;
   display: flex;
-
 `;
 
 export const StyledSpan = styled.span`
