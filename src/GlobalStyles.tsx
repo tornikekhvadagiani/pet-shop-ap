@@ -50,6 +50,8 @@ export const StyledFormMain = styled.div`
   flex-wrap: wrap;
   justify-content: space-between;
   width: 100%;
+  flex-direction: column;
+  align-items: center;
 `;
 export const StyledForm = styled.form`
   display: flex;

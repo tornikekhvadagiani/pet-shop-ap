@@ -5,7 +5,6 @@ import { IAnimalsData, IAnimalsMainData } from "../../globalTypes";
 const API_URL = import.meta.env.VITE_API_URL;
 const API_KEY = import.meta.env.VITE_ANIMALS_KEY;
 
-// Fetch a single animal by ID
 export const fetchAnimalById = createAsyncThunk(
   "animals/fetchAnimalById",
   async (uuid: string, { rejectWithValue }) => {
@@ -31,7 +30,6 @@ export const fetchAnimalById = createAsyncThunk(
   }
 );
 
-// Add a new animal
 export const addAnimal = createAsyncThunk(
   "animals/addAnimal",
   async (formData: Omit<IAnimalsMainData, "_uuid">, { rejectWithValue }) => {
@@ -57,7 +55,6 @@ export const addAnimal = createAsyncThunk(
   }
 );
 
-// Update an existing animal
 export const updateAnimal = createAsyncThunk(
   "animals/updateAnimal",
   async (
@@ -131,7 +128,7 @@ export const fetchAnimals = createAsyncThunk<
       throw new Error(`HTTP error! Status: ${response.status}`);
     }
     const data = await response.json();
-    return data.items; // Assuming API response has `items` array
+    return data.items;
   } catch (error: any) {
     toast.error("Something Went Wrong!");
     return rejectWithValue(error.message);

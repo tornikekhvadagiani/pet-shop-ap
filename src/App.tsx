@@ -17,7 +17,7 @@ function App() {
           <Route path="/AddAnimals" element={<Animals />} />
           <Route path="/EditAnimals/:uuid" element={<Animals />} />
           <Route path="/AddCategory" element={<Category />} />
-          <Route path="/EditCategory" element={<Category />} />
+          <Route path="/EditCategory/:uuid" element={<Category />} />
           <Route
             path="/Add_AnimalsWithCategory"
             element={<AnimalsWithCategory />}

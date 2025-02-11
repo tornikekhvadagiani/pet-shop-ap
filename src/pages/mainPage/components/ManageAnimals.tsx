@@ -31,7 +31,6 @@ const ManageAnimals = () => {
   const { animals, isLoading } = useSelector(
     (state: RootState) => state.animals
   );
-  console.log(animals);
 
   useEffect(() => {
     useDolarToGel().then((rate) => setDolarToGelPrice(rate));

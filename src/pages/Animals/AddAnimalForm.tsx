@@ -34,7 +34,7 @@ const AddAnimalForm = () => {
   const editingInfo = useSelector((state: RootState) =>
     state.animals.animals.find((animal) => animal._uuid === uuid)
   );
-  console.log(editingInfo);
+
 
   useEffect(() => {
     if (isEditing) {

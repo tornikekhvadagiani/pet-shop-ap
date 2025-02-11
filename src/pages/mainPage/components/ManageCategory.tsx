@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   StyledAnimalsContainer,
   StyledCategoryHeader,
@@ -6,70 +6,80 @@ import {
   StyledListItemCategory,
   StyledSpan,
 } from "../MainPageStyles";
-import useGetRequest from "../../../CustomHooks/useGetRequest";
-import { IAnimalsData } from "../../../globalTypes";
-import { useDolarToGel } from "../../../CustomHooks/useDolarToGel";
 import { StyledLoaderMain } from "../../../GlobalStyles";
-import { FaEdit } from "react-icons/fa";
+import { FaEdit, FaTrash } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../store";
+import {
+  deleteCategory,
+  fetchCategories,
+} from "../../../store/category/category.thunks";
+import { toast } from "react-toastify";
 
-interface Item {
-  name: string;
-  description: string;
-}
 const ManageCategory = () => {
-  const [animalsData, setAnimalsData] = useState<IAnimalsData[] | null>(null);
-  const [formattedAnimals, setFormattedAnimals] = useState<Item[]>([]);
-  const [dolarToGelPrice, setDolarToGelPrice] = useState<number>(0);
-  const [isLoaded, setIsLoaded] = useState<boolean>(true);
+  const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const { VITE_CATEGORY_KEY, VITE_API_URL } = import.meta.env;
+  // Get categories from Redux store
+  const { categories, isLoading } = useSelector(
+    (state: RootState) => state.category
+  );
+
+  // Fetch categories when component mounts
   useEffect(() => {
-    useDolarToGel().then((rate) => setDolarToGelPrice(rate));
-  }, []);
+    dispatch(
+      fetchCategories({
+        url: import.meta.env.VITE_API_URL,
+        key: import.meta.env.VITE_CATEGORY_KEY,
+      })
+    );
+  }, [dispatch]);
 
-  useEffect(() => {
-    if (dolarToGelPrice === null) return;
+  // Handle delete
+  const deleteItem = (id: string) => {
+    dispatch(
+      deleteCategory({
+        id,
+        key: import.meta.env.VITE_CATEGORY_KEY,
+        url: import.meta.env.VITE_API_URL,
+      })
+    )
+      .unwrap()
+      .then(() => {
+        toast.success("Category deleted successfully!");
+        dispatch(
+          fetchCategories({
+            url: import.meta.env.VITE_API_URL,
+            key: import.meta.env.VITE_CATEGORY_KEY,
+          })
+        );
+      })
+      .catch((error: string) => {
+        toast.error(error || "Failed to delete category.");
+      });
+  };
 
-    useGetRequest({
-      key: VITE_CATEGORY_KEY,
-      url: `${VITE_API_URL}/category`,
-      setIsLoaded: setIsLoaded,
-      setData: (data: IAnimalsData[]) => {
-        setAnimalsData(data);
-        const formattedData: Item[] = data.map((item) => ({
-          name: item.name,
-          description: item.description,
-        }));
-
-        setFormattedAnimals(formattedData);
-      },
-    });
-  }, [dolarToGelPrice]);
-
-  if (!isLoaded)
+  if (isLoading)
     return (
       <StyledLoaderMain>
         <h1>Loading..</h1>
       </StyledLoaderMain>
     );
 
-  if (!isLoaded)
-    return (
-      <StyledLoaderMain>
-        <h1>Loading..</h1>
-      </StyledLoaderMain>
-    );
   return (
     <StyledAnimalsContainer>
       <StyledCategoryHeader>
         <StyledSpan>Name</StyledSpan>
         <StyledSpan>Description</StyledSpan>
       </StyledCategoryHeader>
-      {formattedAnimals?.map((item, index) => (
-        <StyledListItemCategory key={index}>
+      {categories?.map((item) => (
+        <StyledListItemCategory key={item._uuid}>
           <StyledEdit>
-            <FaEdit />
+            <FaTrash onClick={() => deleteItem(item._uuid)} color="#f72d2d" />
+            <FaEdit onClick={() => navigate(`/EditCategory/${item._uuid}`)} />
           </StyledEdit>
+
           <StyledSpan>{item.name}</StyledSpan>
           <StyledSpan>{item.description}</StyledSpan>
         </StyledListItemCategory>

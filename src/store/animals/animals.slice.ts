@@ -48,9 +48,8 @@ const animalsSlice = createSlice({
           );
         }
       )
-      .addCase(deleteAnimal.rejected, (state, action) => {
+      .addCase(deleteAnimal.rejected, (state) => {
         state.isLoading = false;
-        state.error = action.payload || "Error deleting animal.";
       });
   },
 });
