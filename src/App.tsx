@@ -23,7 +23,7 @@ function App() {
             element={<AnimalsWithCategory />}
           />
           <Route
-            path="/Edit_AnimalsWithCategory"
+            path="/Edit_AnimalsWithCategory/:uuid"
             element={<AnimalsWithCategory />}
           />
         </Routes>

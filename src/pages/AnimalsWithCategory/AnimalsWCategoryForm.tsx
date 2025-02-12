@@ -12,9 +12,6 @@ import usePostRequest, { IData } from "../../CustomHooks/usePostRequest";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 
-
-
-
 const AnimalsWCategoryForm = () => {
   const [selectedAnimal, setSelectedAnimal] = useState<IAnimalsData | null>(
     null

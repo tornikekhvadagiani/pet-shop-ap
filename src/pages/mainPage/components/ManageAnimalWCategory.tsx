@@ -1,4 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { StyledLoaderMain } from "../../../GlobalStyles";
+import {
+  fetchAnimalsWithCategories,
+  deleteAnimalWithCategory,
+} from "../../../store/animalsWithCategory/animalsWithCategory.thunks";
 import {
   StyledAnimalsContainer,
   StyledCategoryHeader,
@@ -6,84 +11,46 @@ import {
   StyledListItemCategory,
   StyledSpan,
 } from "../MainPageStyles";
-import useGetRequest from "../../../CustomHooks/useGetRequest";
-import { IAnimalsData } from "../../../globalTypes";
-import { useDolarToGel } from "../../../CustomHooks/useDolarToGel";
-import { StyledLoaderMain } from "../../../GlobalStyles";
-import { FaEdit } from "react-icons/fa";
-interface ITem {
-  animal: {
-    isPopular: boolean;
-    name: string;
-    description: string;
-    priceUSD: string;
-    stock: string;
-  };
-  category: {
-    name: string;
-    description: string;
-  };
-}
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../../store";
+import { FaEdit, FaTrash } from "react-icons/fa";
+
 const ManageAnimalsWCategory = () => {
-  const [formattedAnimals, setFormattedAnimals] = useState<ITem[]>([]);
-  const [dolarToGelPrice, setDolarToGelPrice] = useState<number>(0);
-  const [isLoaded, setIsLoaded] = useState<boolean>(true);
-
-  const { VITE_ANIMALS_WITH_CATEGORY_KEY, VITE_API_URL } = import.meta.env;
-  useEffect(() => {
-    useDolarToGel().then((rate) => setDolarToGelPrice(rate));
-  }, []);
+  const dispatch = useDispatch<AppDispatch>();
+  const { animals, isLoading } = useSelector(
+    (state: RootState) => state.animals
+  );
 
   useEffect(() => {
-    if (dolarToGelPrice === null) return;
+    dispatch(fetchAnimalsWithCategories());
+  }, [dispatch]);
 
-    useGetRequest({
-      key: VITE_ANIMALS_WITH_CATEGORY_KEY,
-      url: `${VITE_API_URL}/animals_with_categories`,
-      setIsLoaded: setIsLoaded,
-      setData: (data: IAnimalsData[]) => {
-        const formattedData = data.map((item) => ({
-          animal: item.animal ?? {
-            isPopular: false,
-            name: "",
-            description: "",
-            priceUSD: "0",
-            stock: "0",
-          },
-          category: item.category ?? { name: "", description: "" },
-        }));
+  const handleDelete = async (uuid: string) => {
+    await dispatch(deleteAnimalWithCategory(uuid));
+    dispatch(fetchAnimalsWithCategories());
+  };
 
-        setFormattedAnimals(formattedData);
-      },
-    });
-  }, [dolarToGelPrice]);
-
-  if (!isLoaded)
+  if (isLoading)
     return (
       <StyledLoaderMain>
         <h1>Loading</h1>
       </StyledLoaderMain>
     );
 
-  if (!isLoaded)
-    return (
-      <StyledLoaderMain>
-        <h1>Loading</h1>
-      </StyledLoaderMain>
-    );
   return (
     <StyledAnimalsContainer>
       <StyledCategoryHeader>
         <StyledSpan>Animal Name</StyledSpan>
-        <StyledSpan>Category</StyledSpan>
+        <StyledSpan>Category Name</StyledSpan>
       </StyledCategoryHeader>
-      {formattedAnimals?.map((item, index) => (
+      {animals?.map((item, index) => (
         <StyledListItemCategory key={index}>
           <StyledEdit>
-            <FaEdit />
+            <FaTrash onClick={() => handleDelete(item._uuid)} color="#f72d2d" />
+            {/* <FaEdit onClick={() => handleEdit(item)} /> */}
           </StyledEdit>
-          <StyledSpan>{item.animal.name}</StyledSpan>
-          <StyledSpan>{item.category.name}</StyledSpan>
+          <StyledSpan>{item.animal?.name ?? "No Name"}</StyledSpan>
+          <StyledSpan>{item.category?.name ?? "No Category"}</StyledSpan>
         </StyledListItemCategory>
       ))}
     </StyledAnimalsContainer>

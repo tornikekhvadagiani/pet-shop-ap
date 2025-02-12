@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { fetchAnimals, deleteAnimal } from "./animals.thunks";
 import { IAnimalsData } from "../../globalTypes";
+import { fetchAnimalsWithCategories } from "../animalsWithCategory/animalsWithCategory.thunks";
 
 interface AnimalsState {
   animals: IAnimalsData[];
@@ -50,6 +51,17 @@ const animalsSlice = createSlice({
       )
       .addCase(deleteAnimal.rejected, (state) => {
         state.isLoading = false;
+      })
+      .addCase(fetchAnimalsWithCategories.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(fetchAnimalsWithCategories.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.animals = action.payload;
+      })
+      .addCase(fetchAnimalsWithCategories.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload as string;
       });
   },
 });
