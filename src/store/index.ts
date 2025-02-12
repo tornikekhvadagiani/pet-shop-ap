@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import animalsReducer from "./animals/animals.slice";
-import categoryReducer from "./category/category.slice"; // Import the category reducer
+import categoryReducer from "./category/category.slice";
+import animalsWithCategoryReducer from "./animalsWithCategory/animalsWithCategory.slice";
 
 export const store = configureStore({
   reducer: {
     animals: animalsReducer,
     category: categoryReducer,
+    animalsWithCategory: animalsWithCategoryReducer,
   },
 });
 

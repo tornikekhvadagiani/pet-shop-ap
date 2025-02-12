@@ -5,43 +5,42 @@ import {
 } from "./animalsWithCategory.thunks";
 import { IAnimalsData } from "../../globalTypes";
 
-interface AnimalsState {
-  animals: IAnimalsData[];
+interface AnimalsWithCategoryState {
+  animalsWithCategory: IAnimalsData[];
   isLoading: boolean;
   error: string | null;
 }
 
-const initialState: AnimalsState = {
-  animals: [],
+const initialState: AnimalsWithCategoryState = {
+  animalsWithCategory: [],
   isLoading: false,
   error: null,
 };
 
-const animalsSlice = createSlice({
-  name: "animals",
+const animalsWithCategorySlice = createSlice({
+  name: "animalsWithCategory",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(fetchAnimalsWithCategories.pending, (state) => {
         state.isLoading = true;
+        state.error = null;
       })
       .addCase(fetchAnimalsWithCategories.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.animals = action.payload;
+        state.animalsWithCategory = action.payload;
       })
       .addCase(fetchAnimalsWithCategories.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload as string;
       })
-
       .addCase(deleteAnimalWithCategory.fulfilled, (state, action) => {
-        state.animals = state.animals.filter(
-          (animal) => animal._uuid !== action.payload
-        );
-        console.log("Redux state after delete:", state.animals);
-      });
+        state.animalsWithCategory = state.animalsWithCategory.filter(
+          (item) => item._uuid !== action.payload
+        )
+      })
   },
 });
 
-export default animalsSlice.reducer;
+export default animalsWithCategorySlice.reducer;

@@ -117,7 +117,7 @@ export const fetchAnimals = createAsyncThunk<
   { rejectValue: string }
 >("animals/fetchAnimals", async ({ url, key }, { rejectWithValue }) => {
   try {
-    const response = await fetch(url, {
+    const response = await fetch(`${url}/animals`, {
       method: "GET",
       headers: {
         Authorization: `Bearer ${key}`,

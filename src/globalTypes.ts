@@ -18,24 +18,31 @@ export interface IAnimalsData {
   _self_link: string;
   _user: string;
   animal?: {
-    isPopular: true;
+    uuid: string;
+    isPopular: boolean;
     name: string;
     description: string;
     priceUSD: string;
     stock: string;
   };
   category?: {
+    uuid: string;
     name: string;
     description: string;
   };
 }
-export interface IAnimalsMainData {
-  _uuid: string;
-  name: string;
-  description: string;
-  priceUSD: string;
-  stock: string;
-  isPopular: boolean;
+export interface IAnimalsWCategoryData {
+  animal: {
+    isPopular: boolean;
+    name: string;
+    description: string;
+    priceUSD: string;
+    stock: string;
+  };
+  category: {
+    name: string;
+    description: string;
+  };
 }
 
 export interface ICategoryData {

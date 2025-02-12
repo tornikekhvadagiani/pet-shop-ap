@@ -38,9 +38,7 @@ const ManageAnimals = () => {
 
   useEffect(() => {
     if (dolarToGelPrice > 0) {
-      dispatch(
-        fetchAnimals({ url: VITE_API_URL + "/animals", key: VITE_ANIMALS_KEY })
-      );
+      dispatch(fetchAnimals({ url: VITE_API_URL, key: VITE_ANIMALS_KEY }));
     }
   }, [dolarToGelPrice, dispatch]);
 
