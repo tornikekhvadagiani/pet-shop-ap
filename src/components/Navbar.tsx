@@ -11,23 +11,26 @@ const Navbar = () => {
   const [activeLink, setActiveLink] = useState<number>(-1);
   const currentLocation = useLocation();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   useEffect(() => {
-    const matchingLink = LinksAPI.find((e) =>
-      currentLocation.pathname.includes(e.linkTo)
-    );
-    if (currentLocation.pathname == "/") {
-      navigate("/Main/Animals");
+    if (currentLocation.pathname === "/") {
+      navigate("/Main/Animals", { replace: true });
     }
+
+    const matchingLink = LinksAPI.find(
+      (e) =>
+        currentLocation.pathname === e.linkTo ||
+        currentLocation.pathname.startsWith(`${e.linkTo}/`)
+    );
 
     if (matchingLink) {
       setActiveLink(matchingLink.id);
+    } else {
+      setActiveLink(-1);
     }
 
     window.scrollTo(0, 0);
-  }, [currentLocation.pathname]);
-
+  }, [currentLocation]);
   return (
     <StyledNav>
       <h1>Admin Console</h1>

@@ -1,4 +1,3 @@
-// src/store/category/category.thunks.ts
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { ICategoryData } from "../../globalTypes";
 import { toast } from "react-toastify";
@@ -14,9 +13,9 @@ interface CategoryPayload {
 }
 
 export const fetchCategories = createAsyncThunk<
-  ICategoryData[], // Return type
-  { url: string; key: string }, // Arguments
-  { rejectValue: string } // Error handling
+  ICategoryData[], 
+  { url: string; key: string }, 
+  { rejectValue: string } 
 >("category/fetchCategories", async ({ url, key }, { rejectWithValue }) => {
   try {
     const response = await fetch(`${url}/category`, {

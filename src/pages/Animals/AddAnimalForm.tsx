@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   StyledCheckboxContainer,
   StyledInput,
@@ -17,6 +17,7 @@ import {
   addAnimal,
   updateAnimal,
 } from "../../store/animals/animals.thunks";
+import { IAnimalsData } from "../../globalTypes";
 
 const AddAnimalForm = () => {
   const nameRef = useRef<HTMLInputElement>(null);
@@ -31,14 +32,13 @@ const AddAnimalForm = () => {
 
   const dispatch = useDispatch<AppDispatch>();
 
-  const editingInfo = useSelector((state: RootState) =>
-    state.animals.animals.find((animal) => animal._uuid === uuid)
-  );
-
+  const [editingInfo, setEditingInfo] = useState<IAnimalsData>();
 
   useEffect(() => {
     if (isEditing) {
-      dispatch(fetchAnimalById(uuid as string));
+      dispatch(fetchAnimalById(uuid as string)).then((e) =>
+        setEditingInfo(e.payload)
+      );
     }
   }, [dispatch, isEditing, uuid]);
 

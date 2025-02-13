@@ -21,12 +21,10 @@ const ManageCategory = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
-  // Get categories from Redux store
   const { categories, isLoading } = useSelector(
     (state: RootState) => state.category
   );
 
-  // Fetch categories when component mounts
   useEffect(() => {
     dispatch(
       fetchCategories({
@@ -36,7 +34,6 @@ const ManageCategory = () => {
     );
   }, [dispatch]);
 
-  // Handle delete
   const deleteItem = (id: string) => {
     dispatch(
       deleteCategory({

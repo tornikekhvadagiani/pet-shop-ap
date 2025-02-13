@@ -35,7 +35,6 @@ const AnimalsWCategoryForm = () => {
     (state: RootState) => state.category.categories
   );
 
-  // Find the editing item based on UUID
   const editingInfo = useSelector((state: RootState) =>
     state.animalsWithCategory.animalsWithCategory.find(
       (item) => item._uuid === uuid

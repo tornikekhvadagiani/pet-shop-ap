@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   StyledForm,
   StyledFormMain,
@@ -17,6 +17,7 @@ import {
   fetchCategoryById,
   updateCategory,
 } from "../../store/category/category.thunks";
+import { ICategoryData } from "../../globalTypes";
 
 const CategoryForm = () => {
   const titleRef = useRef<HTMLInputElement | null>(null);
@@ -27,21 +28,20 @@ const CategoryForm = () => {
   const isEditing = Boolean(uuid);
 
   const dispatch = useDispatch<AppDispatch>();
-  const categoryData = useSelector((state: RootState) =>
-    state.category.categories.find((cat) => cat._uuid === uuid)
-  );
+  const [categoryData, setCategoryData] = useState<ICategoryData>();
+  useEffect(() => {
+    console.log(categoryData);
+  }, []);
 
   useEffect(() => {
     if (isEditing && uuid) {
-      console.log(uuid);
-
       dispatch(
         fetchCategoryById({
           id: uuid,
           url: import.meta.env.VITE_API_URL,
           key: import.meta.env.VITE_CATEGORY_KEY,
         })
-      );
+      ).then((e) => setCategoryData(e.payload));
     }
   }, [dispatch, isEditing, uuid]);
 

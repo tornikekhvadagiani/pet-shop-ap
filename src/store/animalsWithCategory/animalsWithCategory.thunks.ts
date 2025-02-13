@@ -5,7 +5,6 @@ import { toast } from "react-toastify";
 const API_URL = import.meta.env.VITE_API_URL;
 const API_KEY = import.meta.env.VITE_ANIMALS_WITH_CATEGORY_KEY;
 
-// ✅ Fetch all animals with categories
 export const fetchAnimalsWithCategories = createAsyncThunk<
   IAnimalsData[],
   void,
@@ -42,7 +41,6 @@ export const fetchAnimalsWithCategories = createAsyncThunk<
   }
 });
 
-// ✅ Fetch a single animal with category by ID
 export const fetchAnimalWithCategoryById = createAsyncThunk<
   IAnimalsData,
   string,
@@ -68,7 +66,6 @@ export const fetchAnimalWithCategoryById = createAsyncThunk<
   }
 });
 
-// ✅ Add a new animal with category
 export const addAnimalWithCategory = createAsyncThunk<
   IAnimalsData,
   IAnimalsWCategoryData,
@@ -97,7 +94,6 @@ export const addAnimalWithCategory = createAsyncThunk<
   }
 });
 
-// ✅ Update an animal with category
 export const updateAnimalWithCategory = createAsyncThunk<
   IAnimalsData,
   { uuid: string; updatedData: IAnimalsWCategoryData },
@@ -132,7 +128,6 @@ export const updateAnimalWithCategory = createAsyncThunk<
   }
 );
 
-// ✅ Delete an animal with category
 export const deleteAnimalWithCategory = createAsyncThunk<
   string,
   string,

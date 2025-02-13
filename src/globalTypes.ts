@@ -44,6 +44,13 @@ export interface IAnimalsWCategoryData {
     description: string;
   };
 }
+export interface IAnimalsMainData {
+  isPopular: boolean;
+  name: string;
+  description: string;
+  priceUSD: string;
+  stock: string;
+}
 
 export interface ICategoryData {
   _uuid: string;
