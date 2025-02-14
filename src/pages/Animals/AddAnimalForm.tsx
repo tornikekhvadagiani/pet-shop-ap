@@ -10,8 +10,8 @@ import {
 import { SubmitButton } from "../../GlobalStyles";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState, AppDispatch } from "../../store";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store";
 import {
   fetchAnimalById,
   addAnimal,
@@ -24,7 +24,7 @@ const AddAnimalForm = () => {
   const priceUSDRef = useRef<HTMLInputElement>(null);
   const descriptionRef = useRef<HTMLInputElement>(null);
   const stockRef = useRef<HTMLInputElement>(null);
-  const isPopularRef = useRef<HTMLInputElement>(null);
+  const [isPopular, setIsPopular] = useState(false);
 
   const navigate = useNavigate();
   const { uuid } = useParams();
@@ -36,9 +36,10 @@ const AddAnimalForm = () => {
 
   useEffect(() => {
     if (isEditing) {
-      dispatch(fetchAnimalById(uuid as string)).then((e) =>
-        setEditingInfo(e.payload)
-      );
+      dispatch(fetchAnimalById(uuid as string)).then((e) => {
+        setEditingInfo(e.payload);
+        setIsPopular(e.payload?.isPopular || false);
+      });
     }
   }, [dispatch, isEditing, uuid]);
 
@@ -51,7 +52,7 @@ const AddAnimalForm = () => {
       priceUSD: priceUSDRef.current?.value.trim() || "",
       description: descriptionRef.current?.value.trim() || "",
       stock: stockRef.current?.value.trim() || "",
-      isPopular: isPopularRef.current?.checked || false,
+      isPopular: isPopular,
     };
 
     if (
@@ -72,6 +73,7 @@ const AddAnimalForm = () => {
       dispatch(addAnimal(formData)).then(() => navigate("/Main/Animals"));
     }
   };
+  console.log(editingInfo);
 
   return (
     <StyledForm onSubmit={handleSubmit}>
@@ -121,8 +123,8 @@ const AddAnimalForm = () => {
             <input
               type="checkbox"
               name="isPopular"
-              ref={isPopularRef}
-              defaultChecked={editingInfo?.isPopular || false}
+              checked={isPopular}
+              onChange={(e) => setIsPopular(e.target.checked)}
             />
             <StyledLabel>Is Popular?</StyledLabel>
           </StyledCheckboxContainer>
