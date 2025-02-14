@@ -4,8 +4,6 @@ import { LinksAPI } from "../API/LinksAPI";
 import { useEffect, useState } from "react";
 import { ILinks } from "../globalTypes";
 import { useLocation, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../store";
 
 const Navbar = () => {
   const [activeLink, setActiveLink] = useState<number>(-1);

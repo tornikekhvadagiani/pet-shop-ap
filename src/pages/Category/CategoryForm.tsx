@@ -10,8 +10,8 @@ import {
 import { SubmitButton } from "../../GlobalStyles";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState, AppDispatch } from "../../store";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "../../store";
 import {
   addCategory,
   fetchCategoryById,
