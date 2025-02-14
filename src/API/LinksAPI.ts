@@ -1,7 +1,7 @@
-import category from "../../public/assets/icons/category.png";
-import pets from "../../public/assets/icons/pets.png";
-import petscategory from "../../public/assets/icons/petscategory.png";
-import main from "../../public/assets/icons/main.png";
+import category from "/assets/icons/category.png";
+import pets from "/assets/icons/pets.png";
+import petscategory from "/assets/icons/petscategory.png";
+import main from "/assets/icons/main.png";
 import { ILinks } from "../globalTypes";
 
 export const LinksAPI: ILinks[] = [
